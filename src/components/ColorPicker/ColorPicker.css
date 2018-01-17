@@ -1,0 +1,15 @@
+.color-filter .button-group {
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  overflow: hidden;
+}
+
+.color-filter .button-group .button {
+  margin: 0;
+}
+
+.color-filter__picker {
+  position: absolute;
+  z-index: 1;
+  transform: translateX(-25%);
+}
