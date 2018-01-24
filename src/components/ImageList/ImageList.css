@@ -1,3 +1,9 @@
-.gallery-view {
-    padding: 1rem 0.5rem;
+.gallery-list {
+    position: relative;
+    width: 100%;
+}
+
+.gallery-list__row {
+    position: absolute;
+    width: 100%;
 }

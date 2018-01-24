@@ -10,26 +10,33 @@
  * */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { IMAGE_RESOLUTION, IMAGE_SIZES } from '../../api/images/constants';
-import Image from '../Image';
+import { IMAGE_RESOLUTION } from '../../api/images/constants';
+import LoadedImage from '../../containers/LoadedImage';
+import Row from '../Row';
 import './ImageList.css';
 
-const ImageList = ({ images = [], resolution = 'thumbnail' }) => {
-  const imageHeight = Math.min(IMAGE_SIZES[resolution], window.innerWidth);
-  const imageResolution = IMAGE_RESOLUTION[resolution];
-  return (
-    <div className="gallery-view grid-x medium-unstack align-center">
+const ImageList = ({
+  images = [],
+  resolution = 'thumbnail',
+  height,
+  scrollHeight,
+  position
+}) => (
+  <div className="gallery-list" style={{ height: `${scrollHeight}px` }}>
+    <Row align="center" className="gallery-list__row" style={{ top: position }}>
       {
-        images.map((img) =>
-          (<Image
-            key={img.key}
-            url={img[imageResolution].url}
-            height={imageHeight}
-          />))
+        images.map((image) => (
+          <LoadedImage
+            key={image.key}
+            height={height}
+            color={image.prominentColor}
+            url={image[resolution].url}
+          />
+        ))
       }
-    </div>
-  );
-};
+    </Row>
+  </div>
+);
 
 const resolutionShape = PropTypes.shape({
   url: PropTypes.string.isRequired,
@@ -45,7 +52,10 @@ ImageList.propTypes = {
     standard_resolution: resolutionShape.isRequired,
   })).isRequired,
   resolution: PropTypes //eslint-disable-line react/require-default-props
-    .oneOf(Object.keys(IMAGE_RESOLUTION))
+    .oneOf(Object.keys(IMAGE_RESOLUTION).map((key) => IMAGE_RESOLUTION[key])),
+  height: PropTypes.number.isRequired,
+  scrollHeight: PropTypes.number.isRequired,
+  position: PropTypes.number.isRequired
 };
 
 export default ImageList;

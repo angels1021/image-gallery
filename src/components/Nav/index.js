@@ -12,7 +12,7 @@ import SizeSelector from '../../containers/SizeSelector';
 import ColorSelector from '../../containers/ColorSelector';
 
 const Nav = () => (
-  <nav className="top-bar">
+  <nav className="top-bar flex-static">
     <ul className="menu">
       <li className="menu-text">Prominent Color: </li>
       <li><ColorSelector /></li>

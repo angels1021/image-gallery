@@ -1,0 +1,21 @@
+.gallery-image__card {
+  height: 100%;
+  margin: 0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.gallery-image__img {
+  height: 100%;
+  width: 100%;
+}
+
+.gallery-image__img img{
+  filter: blur(5px);
+  transition: blur 0.5s;
+
+}
+
+.gallery-image__img.loaded img{
+  filter: blur(0)
+}

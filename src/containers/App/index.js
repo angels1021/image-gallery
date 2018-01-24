@@ -1,29 +1,14 @@
 import React from 'react';
 import Nav from '../../components/Nav';
-import Gallery from '../Gallery';
+import FlexBox from '../../components/FlexBox';
+import GalleryList from '../GalleryList';
 import './App.css';
 
 const App = () => (
-  <div className="App">
+  <FlexBox direction="column" align="stretch" className="App">
     <Nav />
-    <Gallery />
-  </div>
+    <GalleryList />
+  </FlexBox>
 );
 
 export default App;
-
-/**
- *
- * <Nav>
- *   <ul>
- *     <li>
- *       prominentColor: <Picker />
- *     </li>
- *     <li>
- *       size: <SizeSelector />
- *     </li>
- *   </ul>
- * </Nav>
- * <Gallery />
- *
- * **/
