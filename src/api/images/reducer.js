@@ -1,4 +1,3 @@
-/* @flow */
 /**
  * galley reducer
  * @module api/images/reducer
@@ -32,8 +31,8 @@ const imagesReducer = (state = dedfaultState, action) => {
       const { items, colors } = action.payload;
       return {
         ...dedfaultState,
-        items: [...state.items, ...items],
-        colors: [...state.colors, ...colors],
+        items,
+        colors,
       };
     }
     default: {

@@ -1,4 +1,3 @@
-/* @flow */
 /**
  * define store setup and middleware
  * @module store
@@ -6,6 +5,7 @@
 
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
+import { persistStore } from 'redux-persist';
 import reducers from './reducers';
 
 const middleware = [thunk];
@@ -29,6 +29,8 @@ const configureStore = (initialState = {}) => {
     composeEnhancers(...enhancers)
   );
 
+  const persistor = persistStore(store);
+
   // Make reducers hot reloadable, see http://mxs.is/googmo
   // for redux devtools
   if (module.hot) {
@@ -39,7 +41,7 @@ const configureStore = (initialState = {}) => {
     });
   }
 
-  return store;
+  return { store, persistor };
 };
 
 export default configureStore;

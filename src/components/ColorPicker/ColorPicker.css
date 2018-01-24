@@ -2,6 +2,7 @@
   border-radius: 6px;
   border: 1px solid #ccc;
   overflow: hidden;
+  margin: 0.25rem 0;
 }
 
 .color-filter .button-group .button {

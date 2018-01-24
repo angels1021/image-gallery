@@ -5,7 +5,7 @@ import { getAll } from '../../api/images/actions';
 import { IMAGE_RESOLUTION, IMAGE_SIZES } from '../../api/images/constants';
 import { prefetchBySize } from '../../utils/prefetch';
 import ImageList from '../../components/ImageList';
-import './GalleryList.css';
+import './GalleryView.css';
 
 const createLoadedState = () =>
   Object.keys(IMAGE_RESOLUTION)
@@ -16,7 +16,7 @@ const resolutionShape = PropTypes.shape({
   height: PropTypes.number.isRequired
 });
 
-class GalleryList extends Component {
+class GalleryView extends Component {
 
   static defaultProps = {
     resolution: 'thumbnail'
@@ -45,21 +45,37 @@ class GalleryList extends Component {
   };
 
   componentWillMount() {
-    const { getImages } = this.props;
+    const { getImages, images } = this.props;
+    if (images && images.length) return;
     getImages();
   }
 
   componentDidMount() {
     this.ref.addEventListener('scroll', this.onScroll);
+    window.addEventListener('resize', this.initialize);
+    const { images } = this.props;
+    // for loading from indexDB
+    if (images && images.length) {
+      this.initialize();
+    }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.initialize);
   }
 
   componentWillReceiveProps({ images, resolution }) {
     if ((images.length === this.props.images.length) && (resolution === this.props.resolution)){
       return;
     }
-    this.resetSizing(images, resolution);
-    setTimeout(this.onScroll, 0);
+    // for api loading and filter change
+    this.resetSizing({ images, resolution });
   }
+
+  initialize = () => {
+    const { images, resolution } = this.props;
+    this.resetSizing({ images, resolution });
+  };
 
   onScroll = () => {
     const scrollY = this.ref.scrollTop;
@@ -83,15 +99,14 @@ class GalleryList extends Component {
     this.setState({ toRender, scrollY: (scrollY - leftOver) });
   };
 
-  resetSizing = (images, resolution) => {
+  resetSizing = ({ images, resolution }) => {
     const imageHeight = IMAGE_SIZES[resolution];
     const { height, width } = this.ref.getBoundingClientRect();
     const perRow = Math.floor(width / imageHeight);
     const perCol = Math.floor(height / imageHeight);
     const scrollHeight = Math.ceil(images.length / perRow) * (imageHeight);
     const perLoad = perRow * (perCol + 2);
-    this.setState({ scrollHeight, perRow, perLoad });
-
+    this.setState({ scrollHeight, perRow, perLoad }, this.onScroll);
     this.ref.scrollTop = 0;
   };
 
@@ -143,4 +158,4 @@ const mapDispatchToProps = (dispatch) => ({
   getImages: () => dispatch(getAll())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(GalleryList);
+export default connect(mapStateToProps, mapDispatchToProps)(GalleryView);

@@ -12,6 +12,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { IMAGE_RESOLUTION } from '../../api/images/constants';
 import Select from '../Select';
+import './SizeSelect.css';
 
 const sizeOptions = Object.keys(IMAGE_RESOLUTION)
   .reduce((collected, key) =>
@@ -21,7 +22,7 @@ const sizeOptions = Object.keys(IMAGE_RESOLUTION)
     }], []);
 
 const SizeSelect = ({ selected, onSelect }) => (
-  <Select options={sizeOptions} selected={selected} onSelect={onSelect} />
+  <Select className="size-select margin-0" options={sizeOptions} selected={selected} onSelect={onSelect} />
 );
 
 SizeSelect.propTypes = {
